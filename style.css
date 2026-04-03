@@ -123,9 +123,41 @@ footer { padding: 100px 6% 120px; border-top: 1px solid var(--border); backgroun
 .footer-links a { color: var(--gray); text-decoration: none; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; transition: 0.3s; }
 .footer-links a:hover { color: white; }
 
-.ticker { position: fixed; bottom: 0; width: 100%; background: white; color: black; padding: 15px 0; font-weight: 900; z-index: 1001; overflow: hidden; }
-.ticker-track { display: inline-block; animation: scroll 30s linear infinite; white-space: nowrap; font-size: 0.8rem; letter-spacing: 2px; }
-@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker { 
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
+    background: white; 
+    color: black; 
+    padding: 15px 0; 
+    font-weight: 900; 
+    z-index: 1001; 
+    overflow: hidden; 
+    white-space: nowrap; /* Запрещаем перенос строк */
+}
+
+.ticker-track { 
+    display: inline-block; 
+    padding-left: 0;
+    animation: scroll-left 20s linear infinite; /* Ускорь или замедли, меняя секунды */
+    font-size: 0.8rem; 
+    letter-spacing: 2px;
+    will-change: transform; /* Оптимизация для плавности */
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%); /* Сдвигаем ровно на половину длины контента */
+    }
+}
+
+/* Адаптив для истории */
+@media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+}
 /* Стили для страницы истории */
 .about-grid {
     display: grid;
