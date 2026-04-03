@@ -7,6 +7,68 @@
     --glass: rgba(255, 255, 255, 0.03);
     --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+/* Стили для страницы истории */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.about-text p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* Таймлайн (Хронология) */
+.timeline {
+    border-left: 2px solid var(--border);
+    padding-left: 30px;
+    position: relative;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -37px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background: var(--win);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--win);
+}
+
+.time-date {
+    font-weight: 900;
+    font-size: 0.7rem;
+    color: var(--win);
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.time-content b {
+    display: block;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.time-content p {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+/* Адаптив для истории */
+@media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+}
 
 * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
 
@@ -139,7 +201,7 @@ footer { padding: 100px 6% 120px; border-top: 1px solid var(--border); backgroun
 .ticker-track { 
     display: inline-block; 
     padding-left: 0;
-    animation: scroll-left 20s linear infinite; /* Ускорь или замедли, меняя секунды */
+    animation: scroll-left 10s linear infinite; /* Ускорь или замедли, меняя секунды */
     font-size: 0.8rem; 
     letter-spacing: 2px;
     will-change: transform; /* Оптимизация для плавности */
@@ -150,73 +212,6 @@ footer { padding: 100px 6% 120px; border-top: 1px solid var(--border); backgroun
         transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%); /* Сдвигаем ровно на половину длины контента */
+        transform: translateX(-50%);
     }
-}
-
-/* Адаптив для истории */
-@media (max-width: 900px) {
-    .about-grid { grid-template-columns: 1fr; }
-}
-/* Стили для страницы истории */
-.about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    align-items: start;
-}
-
-.about-text p {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1rem;
-    line-height: 1.8;
-}
-
-/* Таймлайн (Хронология) */
-.timeline {
-    border-left: 2px solid var(--border);
-    padding-left: 30px;
-    position: relative;
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 40px;
-}
-
-.timeline-item::before {
-    content: "";
-    position: absolute;
-    left: -37px;
-    top: 5px;
-    width: 12px;
-    height: 12px;
-    background: var(--win);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--win);
-}
-
-.time-date {
-    font-weight: 900;
-    font-size: 0.7rem;
-    color: var(--win);
-    letter-spacing: 2px;
-    margin-bottom: 5px;
-}
-
-.time-content b {
-    display: block;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-}
-
-.time-content p {
-    font-size: 0.85rem;
-    color: var(--gray);
-}
-
-/* Адаптив для истории */
-@media (max-width: 900px) {
-    .about-grid { grid-template-columns: 1fr; }
 }
