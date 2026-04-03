@@ -185,33 +185,43 @@ footer { padding: 100px 6% 120px; border-top: 1px solid var(--border); backgroun
 .footer-links a { color: var(--gray); text-decoration: none; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; transition: 0.3s; }
 .footer-links a:hover { color: white; }
 
-.ticker { 
-    position: fixed; 
-    bottom: 0; 
-    width: 100%; 
-    background: white; 
-    color: black; 
-    padding: 15px 0; 
-    font-weight: 900; 
-    z-index: 1001; 
-    overflow: hidden; 
-    white-space: nowrap; /* Запрещаем перенос строк */
+.ticker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-weight: 900;
+    background: white; /* Белый фон */
+    color: black;      /* Черный текст */
+    padding: 15px 0;
+    z-index: 1001;
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 1px solid rgba(0,0,0,0.1);
 }
 
-.ticker-track { 
-    display: inline-block; 
-    padding-left: 0;
-    animation: scroll-left 10s linear infinite; /* Ускорь или замедли, меняя секунды */
-    font-size: 0.8rem; 
+.ticker-track {
+    display: inline-block;
+    will-change: transform;
+    /* 20s - скорость проезда через весь экран */
+    animation: move-from-right 20s linear infinite;
+}
+
+.ticker-track span {
+    font-size: 0.85rem;
+    font-weight: 900; /* Максимально жирный шрифт */
+    text-transform: uppercase;
     letter-spacing: 2px;
-    will-change: transform; /* Оптимизация для плавности */
+    padding-right: 50px;
 }
 
-@keyframes scroll-left {
+@keyframes move-from-right {
     0% {
-        transform: translateX(0);
+        /* Начинаем полностью за правым краем экрана */
+        transform: translateX(100vw);
     }
     100% {
-        transform: translateX(-50%);
+        /* Уходим полностью за левый край экрана (-100% длины самого текста) */
+        transform: translateX(-100%);
     }
 }
