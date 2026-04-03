@@ -126,3 +126,65 @@ footer { padding: 100px 6% 120px; border-top: 1px solid var(--border); backgroun
 .ticker { position: fixed; bottom: 0; width: 100%; background: white; color: black; padding: 15px 0; font-weight: 900; z-index: 1001; overflow: hidden; }
 .ticker-track { display: inline-block; animation: scroll 30s linear infinite; white-space: nowrap; font-size: 0.8rem; letter-spacing: 2px; }
 @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* Стили для страницы истории */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.about-text p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* Таймлайн (Хронология) */
+.timeline {
+    border-left: 2px solid var(--border);
+    padding-left: 30px;
+    position: relative;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -37px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background: var(--win);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--win);
+}
+
+.time-date {
+    font-weight: 900;
+    font-size: 0.7rem;
+    color: var(--win);
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.time-content b {
+    display: block;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.time-content p {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+/* Адаптив для истории */
+@media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; }
+}
