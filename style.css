@@ -1,0 +1,128 @@
+:root {
+    --bg: #050505;
+    --accent: #ffffff;
+    --gray: #4a4a4a;
+    --win: #00ffaa;
+    --border: rgba(255, 255, 255, 0.1);
+    --glass: rgba(255, 255, 255, 0.03);
+    --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+body {
+    background-color: var(--bg); color: white; font-family: 'Montserrat', sans-serif;
+    line-height: 1.6; overflow-x: hidden; min-height: 100vh;
+    display: flex; flex-direction: column;
+}
+
+/* Эффект шума */
+body::before {
+    content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                url('https://grainy-gradients.vercel.app/noise.svg');
+    background-size: 100% 4px, 200px; opacity: 0.04; pointer-events: none; z-index: 9999;
+}
+
+/* Фон параллакс */
+.bg-wrap { position: fixed; width: 110%; height: 110%; top: -5%; left: -5%; z-index: -1; pointer-events: none; }
+.bg-text {
+    position: absolute; font-weight: 900; color: rgba(255,255,255,0.015);
+    text-transform: uppercase; line-height: 0.8; transition: transform 0.2s ease-out;
+}
+
+nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 30px 6%; background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+}
+
+.logo-box { display: flex; align-items: center; gap: 15px; cursor: pointer; }
+.logo-text { font-weight: 900; font-size: 1.6rem; letter-spacing: 6px; text-transform: uppercase; }
+.logo-text span { color: var(--gray); }
+.status-dot { width: 8px; height: 8px; background: var(--win); border-radius: 50%; box-shadow: 0 0 15px var(--win); animation: pulse 2s infinite; }
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.nav-links { display: flex; gap: 25px; list-style: none; }
+.nav-links a {
+    text-decoration: none; color: var(--gray); font-size: 0.7rem;
+    text-transform: uppercase; font-weight: 900; transition: 0.3s; letter-spacing: 1px;
+}
+.nav-links a:hover, .nav-links a.active { color: white; }
+
+.container { max-width: 1300px; margin: 0 auto; padding: 180px 40px 100px; flex: 1; width: 100%; }
+
+.page { display: none; opacity: 0; transform: translateY(30px); transition: 0.8s var(--transition); }
+.page.active { display: block; opacity: 1; transform: translateY(0); }
+
+.hero { margin-bottom: 100px; }
+.hero-tag { color: var(--win); font-weight: 900; letter-spacing: 6px; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; }
+.hero h1 { font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; line-height: 0.8; margin-left: -5px; }
+.hero h1 span { -webkit-text-stroke: 1.5px white; color: transparent; }
+
+.btn-cta {
+    display: inline-block; margin-top: 40px; padding: 25px 60px;
+    background: white; color: black; font-weight: 900; font-size: 0.9rem;
+    text-transform: uppercase; letter-spacing: 4px; text-decoration: none;
+    transition: 0.4s; border: none; cursor: pointer;
+}
+.btn-cta:hover { transform: skewX(-12deg); box-shadow: 12px 0 0 var(--win); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+.card {
+    background: var(--glass); border: 1px solid var(--border);
+    padding: 50px; position: relative; overflow: hidden; transition: var(--transition);
+}
+.card:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); transform: translateY(-10px); }
+
+.card-bg-nick {
+    position: absolute; right: -5%; bottom: -15%; font-size: 6rem;
+    font-weight: 900; color: rgba(255,255,255,0.02); transform: rotate(-10deg);
+    pointer-events: none; transition: 0.5s; white-space: nowrap;
+}
+
+.card:hover .card-bg-nick { color: rgba(255,255,255,0.06); transform: rotate(-5deg) scale(1.05); }
+
+.stat-label { font-size: 0.65rem; color: var(--gray); font-weight: 900; letter-spacing: 3px; text-transform: uppercase; }
+.stat-val { font-size: 3rem; font-weight: 900; display: block; line-height: 1; }
+
+.stat-line { display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
+.stat-line .stat-val { font-size: 1.2rem; }
+
+.tilt-section {
+    background: white; color: black; padding: 80px 60px;
+    transform: rotate(-3deg) translateX(-30px); width: calc(100% + 60px);
+    margin: 120px 0; position: relative; z-index: 10;
+}
+.tilt-section h2 { font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 900; font-style: italic; text-transform: uppercase; line-height: 0.9; }
+
+/* Медиа заглушка */
+.media-placeholder { 
+    width: 100%; aspect-ratio: 21/9; background: #0a0a0a; 
+    border: 1px solid var(--border); margin-bottom: 30px; 
+    display: flex; align-items: center; justify-content: center;
+}
+.glitch-text { color: var(--gray); font-weight: 900; letter-spacing: 5px; text-transform: uppercase; font-size: 0.8rem; }
+
+/* Формы */
+form input, form select, form textarea {
+    width: 100%; padding: 25px; background: var(--glass); border: 1px solid var(--border);
+    color: white; margin-bottom: 20px; font-family: inherit; font-weight: 700;
+}
+form select option { background: black; }
+
+.success-box {
+    text-align: center; padding: 60px; border: 2px solid var(--win); 
+    color: var(--win); font-weight: 900; text-transform: uppercase; letter-spacing: 3px;
+}
+
+footer { padding: 100px 6% 120px; border-top: 1px solid var(--border); background: #000; text-align: center; margin-top: auto; }
+.footer-links { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; }
+.footer-links a { color: var(--gray); text-decoration: none; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; transition: 0.3s; }
+.footer-links a:hover { color: white; }
+
+.ticker { position: fixed; bottom: 0; width: 100%; background: white; color: black; padding: 15px 0; font-weight: 900; z-index: 1001; overflow: hidden; }
+.ticker-track { display: inline-block; animation: scroll 30s linear infinite; white-space: nowrap; font-size: 0.8rem; letter-spacing: 2px; }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }

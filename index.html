@@ -4,129 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MRK HUB | Official System</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg: #050505;
-            --accent: #ffffff;
-            --gray: #4a4a4a;
-            --win: #00ffaa;
-            --border: rgba(255, 255, 255, 0.1);
-            --glass: rgba(255, 255, 255, 0.03);
-            --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-
-        /* ШУМ И СКАН-ЛИНИИ */
-        body::before {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        url('https://grainy-gradients.vercel.app/noise.svg');
-            background-size: 100% 4px, 200px; opacity: 0.04; pointer-events: none; z-index: 9999;
-        }
-
-        body {
-            background-color: var(--bg); color: white; font-family: 'Montserrat', sans-serif;
-            line-height: 1.6; overflow-x: hidden; min-height: 100vh;
-            display: flex; flex-direction: column;
-        }
-
-        /* ФОН С ПАРАЛЛАКСОМ */
-        .bg-wrap { position: fixed; width: 110%; height: 110%; top: -5%; left: -5%; z-index: -1; pointer-events: none; }
-        .bg-text {
-            position: absolute; font-weight: 900; color: rgba(255,255,255,0.015);
-            text-transform: uppercase; line-height: 0.8; transition: transform 0.2s ease-out;
-        }
-
-        /* НАВИГАЦИЯ */
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 30px 6%; background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
-        }
-        .logo-box { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-        .logo-text { font-weight: 900; font-size: 1.6rem; letter-spacing: 6px; text-transform: uppercase; }
-        .logo-text span { color: var(--gray); }
-        .status-dot { width: 8px; height: 8px; background: var(--win); border-radius: 50%; box-shadow: 0 0 15px var(--win); animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-        .nav-links { display: flex; gap: 25px; list-style: none; }
-        .nav-links a {
-            text-decoration: none; color: var(--gray); font-size: 0.7rem;
-            text-transform: uppercase; font-weight: 900; transition: 0.3s; letter-spacing: 1px;
-        }
-        .nav-links a:hover, .nav-links a.active { color: white; }
-
-        /* КОНТЕНТ */
-        .container { 
-            max-width: 1300px; margin: 0 auto; padding: 180px 40px 100px; 
-            flex: 1; width: 100%; 
-        }
-
-        .page { display: none; opacity: 0; transform: translateY(30px); transition: 0.8s var(--transition); }
-        .page.active { display: block; opacity: 1; transform: translateY(0); }
-
-        /* HERO И КНОПКИ */
-        .hero { margin-bottom: 100px; }
-        .hero-tag { color: var(--win); font-weight: 900; letter-spacing: 6px; font-size: 0.7rem; margin-bottom: 20px; text-transform: uppercase; }
-        .hero h1 { font-size: clamp(4rem, 15vw, 11rem); font-weight: 900; line-height: 0.8; margin-left: -5px; }
-        .hero h1 span { -webkit-text-stroke: 1.5px white; color: transparent; }
-        
-        .btn-cta {
-            display: inline-block; margin-top: 40px; padding: 25px 60px;
-            background: white; color: black; font-weight: 900; font-size: 0.9rem;
-            text-transform: uppercase; letter-spacing: 4px; text-decoration: none;
-            transition: 0.4s; border: none; cursor: pointer;
-        }
-        .btn-cta:hover { transform: skewX(-12deg); box-shadow: 12px 0 0 var(--win); }
-
-        /* СЕТКА И КАРТОЧКИ (С СИГНАТУРАМИ) */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
-        .card {
-            background: var(--glass); border: 1px solid var(--border);
-            padding: 50px; position: relative; overflow: hidden; transition: var(--transition);
-        }
-        .card:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); transform: translateY(-10px); }
-        .card::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transition: 0.4s; transform-origin: left; }
-        .card:hover::after { transform: scaleX(1); }
-
-        .card-bg-nick {
-            position: absolute; right: -5%; bottom: -15%; font-size: 6rem;
-            font-weight: 900; color: rgba(255,255,255,0.02); transform: rotate(-10deg);
-            pointer-events: none; transition: 0.5s; white-space: nowrap;
-        }
-        .card:hover .card-bg-nick { color: rgba(255,255,255,0.06); transform: rotate(-5deg) scale(1.05); }
-
-        /* ИНФО-БЛОКИ */
-        .stat-val { font-size: 3rem; font-weight: 900; display: block; line-height: 1; margin-bottom: 5px; }
-        .stat-label { font-size: 0.65rem; color: var(--gray); font-weight: 900; letter-spacing: 3px; text-transform: uppercase; }
-
-        /* ЦИТАТА */
-        .tilt-section {
-            background: white; color: black; padding: 80px 60px;
-            transform: rotate(-3deg) translateX(-30px); width: calc(100% + 60px);
-            margin: 120px 0; position: relative; z-index: 10;
-        }
-        .tilt-section h2 { font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 900; font-style: italic; text-transform: uppercase; line-height: 0.9; }
-
-        /* ФУТЕР (ПРИЖАТ К НИЗУ) */
-        footer { 
-            padding: 100px 6% 120px; border-top: 1px solid var(--border); 
-            background: #000; text-align: center; margin-top: auto; 
-        }
-        .footer-links { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; }
-        .footer-links a { color: var(--gray); text-decoration: none; font-weight: 900; font-size: 0.75rem; letter-spacing: 2px; transition: 0.3s; }
-        .footer-links a:hover { color: white; transform: translateY(-3px); }
-
-        .ticker { position: fixed; bottom: 0; width: 100%; background: white; color: black; padding: 15px 0; font-weight: 900; z-index: 1001; overflow: hidden; }
-        .ticker-track { display: inline-block; animation: scroll 30s linear infinite; white-space: nowrap; font-size: 0.8rem; letter-spacing: 2px; }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-        @media (max-width: 900px) { .nav-links { display: none; } .container { padding-top: 140px; } .card { padding: 30px; } }
-    </style>
 </head>
 <body>
 
@@ -154,15 +33,15 @@
         
         <section id="home" class="page active">
             <div class="hero">
-                <p class="hero-tag">Sector 05 // Established 2024</p>
+                <p class="hero-tag">Sector 05 // Established 2023</p>
                 <h1>MRK<br><span>HUB</span></h1>
                 <a href="#" onclick="app.nav('join')" class="btn-cta">Присоединиться</a>
             </div>
 
             <div class="grid">
-                <div class="card" style="background: #5865F2; border: none; cursor: pointer;">
+                <div class="card" style="background: #5865F2; border: none; cursor: pointer;" onclick="window.open('https://discord.gg/7pDbzQq9gu', '_blank')">
                     <span class="stat-label" style="color: rgba(255,255,255,0.7);">Discord Status</span>
-                    <span class="stat-val">542</span>
+                    <span class="stat-val">45</span>
                     <p style="font-weight: 900; font-size: 0.7rem; margin-top: 10px;">АКТИВНЫХ ИГРОКОВ ОНЛАЙН</p>
                 </div>
                 <div class="card">
@@ -186,47 +65,47 @@
             <div class="grid">
                 <div class="card">
                     <div class="card-bg-nick">P_1</div>
-                    <span class="stat-label" style="color: var(--win);">Sniper / Leader</span>
-                    <h2 style="font-size: 2rem; margin: 10px 0;">PLAYER_1</h2>
-                    <div style="display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
-                        <div><span class="stat-val" style="font-size: 1.2rem;">1.25</span><span class="stat-label">Rating</span></div>
-                        <div><span class="stat-val" style="font-size: 1.2rem;">89</span><span class="stat-label">ADR</span></div>
+                    <span class="stat-label" style="color: var(--win);">Rifler / IGL</span>
+                    <h2 style="font-size: 2rem; margin: 10px 0;">pomibro</h2>
+                    <div class="stat-line">
+                        <div><span class="stat-val">1.25</span><span class="stat-label">Rating</span></div>
+                        <div><span class="stat-val">89</span><span class="stat-label">ADR</span></div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-bg-nick">P_2</div>
                     <span class="stat-label" style="color: var(--win);">Entry Fragger</span>
-                    <h2 style="font-size: 2rem; margin: 10px 0;">PLAYER_2</h2>
-                    <div style="display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
-                        <div><span class="stat-val" style="font-size: 1.2rem;">1.18</span><span class="stat-label">Rating</span></div>
-                        <div><span class="stat-val" style="font-size: 1.2rem;">82</span><span class="stat-label">ADR</span></div>
+                    <h2 style="font-size: 2rem; margin: 10px 0;">myrch1k</h2>
+                    <div class="stat-line">
+                        <div><span class="stat-val">1.18</span><span class="stat-label">Rating</span></div>
+                        <div><span class="stat-val">82</span><span class="stat-label">ADR</span></div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-bg-nick">P_3</div>
                     <span class="stat-label" style="color: var(--win);">Rifler</span>
-                    <h2 style="font-size: 2rem; margin: 10px 0;">PLAYER_3</h2>
-                    <div style="display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
-                        <div><span class="stat-val" style="font-size: 1.2rem;">1.10</span><span class="stat-label">Rating</span></div>
-                        <div><span class="stat-val" style="font-size: 1.2rem;">78</span><span class="stat-label">ADR</span></div>
+                    <h2 style="font-size: 2rem; margin: 10px 0;">rilUnreal</h2>
+                    <div class="stat-line">
+                        <div><span class="stat-val">1.10</span><span class="stat-label">Rating</span></div>
+                        <div><span class="stat-val">78</span><span class="stat-label">ADR</span></div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-bg-nick">P_4</div>
                     <span class="stat-label" style="color: var(--win);">Support</span>
-                    <h2 style="font-size: 2rem; margin: 10px 0;">PLAYER_4</h2>
-                    <div style="display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
-                        <div><span class="stat-val" style="font-size: 1.2rem;">1.05</span><span class="stat-label">Rating</span></div>
-                        <div><span class="stat-val" style="font-size: 1.2rem;">74</span><span class="stat-label">ADR</span></div>
+                    <h2 style="font-size: 2rem; margin: 10px 0;">Head Hunter</h2>
+                    <div class="stat-line">
+                        <div><span class="stat-val">1.05</span><span class="stat-label">Rating</span></div>
+                        <div><span class="stat-val">74</span><span class="stat-label">ADR</span></div>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-bg-nick">P_5</div>
-                    <span class="stat-label" style="color: var(--win);">Rifler</span>
-                    <h2 style="font-size: 2rem; margin: 10px 0;">PLAYER_5</h2>
-                    <div style="display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 20px;">
-                        <div><span class="stat-val" style="font-size: 1.2rem;">1.09</span><span class="stat-label">Rating</span></div>
-                        <div><span class="stat-val" style="font-size: 1.2rem;">77</span><span class="stat-label">ADR</span></div>
+                    <span class="stat-label" style="color: var(--win);">AWPer</span>
+                    <h2 style="font-size: 2rem; margin: 10px 0;">koko</h2>
+                    <div class="stat-line">
+                        <div><span class="stat-val">1.09</span><span class="stat-label">Rating</span></div>
+                        <div><span class="stat-val">77</span><span class="stat-label">ADR</span></div>
                     </div>
                 </div>
             </div>
@@ -242,19 +121,19 @@
                     <div class="card-bg-nick">CEO</div>
                     <span class="stat-label">Founder / CEO</span>
                     <h2 style="font-size: 2.2rem; margin: 15px 0;">myrch1k</h2>
-                    <p style="color: var(--gray); font-size: 0.85rem;">Управление инфраструктурой и стратегическое планирование хаба.</p>
+                    <p style="color: var(--gray); font-size: 0.85rem;">Поиск участников , модерация и улучшение сообщества</p>
                 </div>
                 <div class="card">
                     <div class="card-bg-nick">ADM</div>
                     <span class="stat-label">Founder / Adm</span>
                     <h2 style="font-size: 2.2rem; margin: 15px 0;">koko</h2>
-                    <p style="color: var(--gray); font-size: 0.85rem;">Координация составов и работа с ключевыми партнерами.</p>
+                    <p style="color: var(--gray); font-size: 0.85rem;">Поиск участников , модерация и улучшение сообщества</p>
                 </div>
                 <div class="card">
                     <div class="card-bg-nick">ADM</div>
                     <span class="stat-label">Founder / Adm</span>
                     <h2 style="font-size: 2.2rem; margin: 15px 0;">rilUnreal</h2>
-                    <p style="color: var(--gray); font-size: 0.85rem;">Развитие сообщества и модерация всех внутренних платформ.</p>
+                    <p style="color: var(--gray); font-size: 0.85rem;">Поиск участников , модерация и улучшение сообщества</p>
                 </div>
             </div>
         </section>
@@ -264,12 +143,18 @@
                 <p class="hero-tag">Visual Archives</p>
                 <h1>MEDIA<span>DB</span></h1>
             </div>
-            <div style="width: 100%; aspect-ratio: 21/9; background: #0a0a0a; border: 1px solid var(--border); margin-bottom: 30px; display: flex; align-items: center; justify-content: center;">
-                <span style="color: var(--gray); font-weight: 900; letter-spacing: 5px;">LAST_TOURNAMENT_VLOG.MP4</span>
+            <div class="media-placeholder">
+                <span class="glitch-text">Здесь пока ничего нет...</span>
             </div>
             <div class="grid">
-                <div class="card"><h3>FRAGSHOW</h3><p style="margin-top:10px; color:var(--gray);">Лучшие моменты за последний сезон.</p></div>
-                <div class="card"><h3>INTERVIEWS</h3><p style="margin-top:10px; color:var(--gray);">Общение с игроками и админами.</p></div>
+                <div class="card" onclick="window.open('https://twitch.tv/myrchik32', '_blank')" style="cursor:pointer">
+                    <h3>TWITCH CHNL</h3>
+                    <p style="margin-top:10px; color:var(--gray);">Прямые трансляции матчей и тренировок.</p>
+                </div>
+                <div class="card">
+                    <h3>FRAGSHOW</h3>
+                    <p style="margin-top:10px; color:var(--gray);">Лучшие моменты за последний сезон.</p>
+                </div>
             </div>
         </section>
 
@@ -279,8 +164,11 @@
                 <h1>SOCIAL<span>HUB</span></h1>
             </div>
             <div class="grid">
-                <div class="card"><h2>VKONTAKTE</h2><p style="margin-top:10px; color:var(--gray);">Официальная группа с новостями и мемами.</p></div>
-                <div class="card" style="background:#5865F2; border:none;"><h2>DISCORD</h2><p style="margin-top:10px;">Голосовой хаб для ежедневных игр.</p></div>
+                <div class="card" style="background:#5865F2; border:none; cursor:pointer" onclick="window.open('https://discord.gg/7pDbzQq9gu', '_blank')">
+                    <h2>DISCORD</h2>
+                    <p style="margin-top:10px;">Основной штаб и голосовой хаб.</p>
+                </div>
+                <div class="card"><h2>VKONTAKTE</h2><p style="margin-top:10px; color:var(--gray);">Официальная группа с новостями.</p></div>
                 <div class="card"><h2>STEAM GROUP</h2><p style="margin-top:10px; color:var(--gray);">Официальный клан-тег MRK.</p></div>
             </div>
         </section>
@@ -292,15 +180,15 @@
                     <h1>APPLY<span>NOW</span></h1>
                 </div>
                 <form id="jForm" onsubmit="app.send(event)">
-                    <input type="text" placeholder="NICKNAME" required style="width: 100%; padding: 25px; background: var(--glass); border: 1px solid var(--border); color: white; margin-bottom: 20px; font-family: inherit;">
-                    <select style="width: 100%; padding: 25px; background: black; border: 1px solid var(--border); color: white; margin-bottom: 20px; font-family: inherit;">
-                        <option>ПРО-СОСТАВ (Competitive)</option>
-                        <option>УЧАСТНИК ХАБА (Social)</option>
+                    <input type="text" placeholder="NICKNAME" required name="nickname">
+                    <select id="joinType" name="type">
+                        <option value="pro">ПРО-СОСТАВ (Competitive)</option>
+                        <option value="social">УЧАСТНИК ХАБА (Social)</option>
                     </select>
-                    <textarea placeholder="ВАШИ ДОСТИЖЕНИЯ / FACEIT / О СЕБЕ" rows="6" required style="width: 100%; padding: 25px; background: var(--glass); border: 1px solid var(--border); color: white; margin-bottom: 20px; font-family: inherit; resize: none;"></textarea>
+                    <textarea placeholder="ВАШИ ДОСТИЖЕНИЯ / FACEIT / О СЕБЕ" rows="6" required name="message"></textarea>
                     <button type="submit" class="btn-cta" style="width: 100%;">Отправить запрос</button>
                 </form>
-                <div id="ok" style="display: none; text-align: center; padding: 60px; border: 2px solid var(--win); color: var(--win); font-weight: 900; text-transform: uppercase; letter-spacing: 3px;">
+                <div id="ok" style="display: none;" class="success-box">
                     Заявка принята. Ожидайте авторизации.
                 </div>
             </div>
@@ -310,46 +198,20 @@
 
     <footer>
         <div class="footer-links">
-            <a href="#">VK</a><a href="#">DISCORD</a><a href="#">STEAM</a><a href="#">TELEGRAM</a><a href="#">YOUTUBE</a>
+            <a href="https://discord.gg/7pDbzQq9gu" target="_blank">DISCORD</a>
+            <a href="https://twitch.tv/myrchik32" target="_blank">TWITCH</a>
+            <a href="https://vk.com/club221809983" target="_blank">VK</a>
+            <a href="#">TELEGRAM</a>
         </div>
-        <p style="opacity: 0.2; font-size: 0.7rem; letter-spacing: 3px;">MRK HUB HQ // SECTOR 05 // SYSTEM VERSION 2026.4.1</p>
+        <p style="opacity: 0.2; font-size: 0.7rem; letter-spacing: 3px;">MRK HUB HQ // SECTOR 05 // SYSTEM VERSION 2026.4.1 // Некоторое кол-во информации вымысел для завлечения участников</p>
     </footer>
 
     <div class="ticker">
         <div class="ticker-track">
-            MRK HUB ACCESS GRANTED • SYSTEM ONLINE • #MRKWIN • 542 MEMBERS • JOIN DISCORD • MRK HUB ACCESS GRANTED • SYSTEM ONLINE • #MRKWIN • 542 MEMBERS • JOIN DISCORD • 
+            MRK HUB ACCESS GRANTED • SYSTEM ONLINE • #MRKWIN • 45 MEMBERS • JOIN DISCORD • MRK HUB ACCESS GRANTED • SYSTEM ONLINE • #MRKWIN • 542 MEMBERS • JOIN DISCORD • 
         </div>
     </div>
 
-    <script>
-        const app = {
-            nav: function(id) {
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-                
-                const target = document.getElementById(id);
-                if(target) target.classList.add('active');
-                
-                const link = document.getElementById('l-' + id);
-                if(link) link.classList.add('active');
-                
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            },
-            send: function(e) {
-                e.preventDefault();
-                document.getElementById('jForm').style.display = 'none';
-                document.getElementById('ok').style.display = 'block';
-            }
-        };
-
-        // Эффект параллакса
-        document.addEventListener('mousemove', (e) => {
-            const moveX = (e.clientX - window.innerWidth / 2) * 0.02;
-            const moveY = (e.clientY - window.innerHeight / 2) * 0.02;
-            
-            document.getElementById('bg-mrk').style.transform = `translate(${moveX}px, ${moveY}px)`;
-            document.getElementById('bg-05').style.transform = `translate(${-moveX}px, ${-moveY}px)`;
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
